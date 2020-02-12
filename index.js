@@ -63,8 +63,9 @@ app.use(
 );
 
 app.use("/api", require("./routes/users.js"));
-app.get("*", (req, res) => {
-  res.send("Welcome to the Homepage")
-})
+app.use("/api", require("./routes/charlies.js"));
+// app.get("*", (req, res) => {
+//   res.send("Welcome to the Homepage")
+// })
 
 app.listen(PORT, console.log(`Server is listening on http://${HOST}:${PORT}`));
