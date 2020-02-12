@@ -1,0 +1,12 @@
+{
+  "name": "okCharlie",
+  "version": "1.0.0",
+  "description": "dating app with only me",
+  "main": "index.js",
+  "repository": "git@github.com:chotung/okCharlie.git",
+  "author": "Charlie Tung <choelestung@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start":"node server.js"
+  }
+}
