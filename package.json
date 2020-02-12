@@ -7,7 +7,7 @@
   "author": "Charlie Tung <choelestung@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node server.js",
+    "start": "node index.js",
     "start:devBack": "nodemon --ignore 'client/*'",
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
     "client": "cd client && npm run start",
