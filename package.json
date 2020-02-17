@@ -22,7 +22,8 @@
     "concurrently": "^5.1.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "if-env": "^1.0.4"
+    "if-env": "^1.0.4",
+    "mongoose": "^5.9.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
