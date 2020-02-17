@@ -31,6 +31,26 @@ if (process.env.NODE_ENV === "production") {
 // app.use("/api", require("./routes/users.js"));
 // app.use("/api", require("./routes/charlies.js"));
 
+
+app.put("/likes", (req, res) => {
+  // if i swipe right 
+  // Find the user in the database
+  const user = await User.findOneAndUpdate(
+    {
+      name: req.body.usersName
+    },
+    {
+      likes:[req.body.person]
+    }
+  )
+  
+  // update likes with the new person 
+  // and if person exist in likedBy 
+  // Its a match
+
+  // match allow *chat* stretch goal
+})
+
 app.get("/seed", (req, res) => {
   const seed = [
     {name: "Vanilla Charlie"},
