@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node index.js",
-    "start:devBack": "nodemon --ignore 'client/*'",
+    "dev": "nodemon index.js",
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
     "client": "cd client && npm run start",
     "install": "cd client && npm install",
@@ -22,9 +22,7 @@
     "concurrently": "^5.1.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "if-env": "^1.0.4",
-    "mysql2": "^2.1.0",
-    "sequelize": "^5.21.4"
+    "if-env": "^1.0.4"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"

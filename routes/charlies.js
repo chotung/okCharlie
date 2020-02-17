@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const Charlie = require("../models/Charlie")
+// const Charlie = require("../models/Charlie")
+const { Charlie } = require("../models/index")
 
 router.post("/add/char", async (req, res) => {
   const { name, typeOfCharlie, location} = req.body
