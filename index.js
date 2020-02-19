@@ -15,7 +15,8 @@ app.use(express.json());
 // DATABASE CONFIGS
 mongoose.connect(process.env.DB_URL, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useFindAndModify: false
 });
 const db = mongoose.connection
 db.on("error", console.error.bind(console, "Connection Error:"))
@@ -32,39 +33,116 @@ if (process.env.NODE_ENV === "production") {
 // app.use("/api", require("./routes/charlies.js"));
 
 
-app.put("/likes", (req, res) => {
-  // if i swipe right 
-  // Find the user in the database
-  const user = await User.findOneAndUpdate(
-    {
-      name: req.body.usersName
-    },
-    {
-      likes:[req.body.person]
-    }
-  )
-  
-  // update likes with the new person 
-  // and if person exist in likedBy 
-  // Its a match
 
-  // match allow *chat* stretch goal
+
+
+
+
+app.put("/likes", async (req, res) => {
+  const { name, personLiked } = req.body
+  // User/Person you swiped left
+  const appUser = await User.findOne(
+    { name: name }
+  )
+  const loveInterest = await User.findOne({
+    name: personLiked.name
+  })
+  
+
+  // MAKES SURE YOU CAN'T ACCIDENTALLY DOUBLE LIKE SOMEONE
+     // MAKE SURE YOU CAN'T LIKE THE SAME PERSON TWICE
+
+  const alreadyLiked = await User.find({
+    "likes._id": loveInterest._id
+  })
+
+  // console.log("Did I like this person?", alreadyLiked)
+  if(alreadyLiked.length !== 0) {
+    // Fix this error (node:88291) UnhandledPromiseRejectionWarning: Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    console.log("You can't like the same person twice!!!!!!!!!!!!")
+    res.send("You can't like the same person twice!!!!!!!!!!!!");
+  } else {
+    // ELSE MEANING I DIDNT LIKE THIS PERSON YET
+    // SHOOT YOUR SHOT WOOWHOOOOO
+    // HANDLES THE USER LIKES ARRAY
+    await User.findOneAndUpdate(
+      { name: name},
+      {
+        $push: {
+          likes: {name: loveInterest.name, _id: loveInterest._id}
+        }
+      }
+    );
+
+    // // HANDLE THE LOVE INTEREST LIKEBY ARRAY
+    await User.findOneAndUpdate(
+      { name: loveInterest.name },
+      {
+        $push: {
+          likeBy: { name: appUser.name, _id: appUser._id}
+        }
+      }
+    )
+  }
+
+
+  // ==== CHECK IF ITS A MATCH!!! <3 ==== //
+  const matching = await User.find({
+    "likeBy.name": loveInterest.name
+  })
+
+  // console.log("Matching", matching)
+  if(matching.length !== 0) {
+    console.log("YOU MATCHED OMG HURRAY!")
+    res.send("YOU MATCHED OMG HURRAY!")
+  }
+  res.send("keep swiping")
+
+ 
 })
 
-app.get("/seed", (req, res) => {
+
+// TESTING ROUTES
+
+app.get("/seed", async (req, res) => {
   const seed = [
     {name: "Vanilla Charlie"},
     {name: "Chocolate Charlie"},
     {name: "Strawberry Charlie"},
+    {name: "Lovely Charlie"},
   ]
 
-  User.create(seed, (err, listOfCharlies)=> {
+  await User.create(seed, (err, listOfCharlies)=> {
     if(err) throw err
 
     console.log(listOfCharlies[0])
     console.log(listOfCharlies[1])
     console.log(listOfCharlies[2])
+    console.log(listOfCharlies[3])
+    res.send("Seeded with Charlies")
   })
+})
+
+app.get("/users", async (req, res) => {
+  // Testing purposes
+
+  const allUsers = await User.find({});
+  res.json(allUsers);
+});
+
+app.post("/users", async (req, res) => {
+  // Testing purposes
+  const newUser = await User.create({
+    name: req.body.name
+  });
+
+  res.json({ msg: "New User Successfully Created", newUser });
+});
+
+
+app.delete("/deleteall", async (req, res) => {
+  await User.deleteMany({})
+  res.send("Deleted All Users")
 })
 
 
