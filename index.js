@@ -102,6 +102,33 @@ app.put("/likes", async (req, res) => {
 })
 
 
+// UPDATE USER INFO ROUTE
+app.put("/user/:name", (req, res) => {
+  // allow change of description
+  const findUser = await User.findOneAndUpdate(
+    {
+      name: req.params.name
+    },
+    {
+      description: req.body.description
+    }
+  )
+
+  res.send("redirect to pofile again")
+})
+// DELETE USER ACCOUNT
+app.delete("/user/:name", (req, res) => {
+  // allow change of description
+  const findUser = await User.findOneAndDelete(
+    {
+      _id: req.body._id
+    }
+  )
+
+  res.send("redirect to signup again")
+})
+
+
 // TESTING ROUTES
 
 app.get("/seed", async (req, res) => {
