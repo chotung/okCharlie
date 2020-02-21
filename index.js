@@ -118,14 +118,15 @@ app.put("/user/update/:name", async (req, res) => {
   res.send("redirect to profile again")
 })
 // DELETE USER ACCOUNT
-app.delete("/user/:name", async (req, res) => {
+app.delete("/users/delete/:name", async (req, res) => {
   // allow change of description
+  // console.log(req.body._id)
   const findUser = await User.findOneAndDelete(
     {
       _id: req.body._id
     }
   )
-
+  
   res.send("redirect to signup again")
 })
 
