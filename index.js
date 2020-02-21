@@ -103,21 +103,22 @@ app.put("/likes", async (req, res) => {
 
 
 // UPDATE USER INFO ROUTE
-app.put("/user/:name", (req, res) => {
+app.put("/user/update/:name", async (req, res) => {
+  console.log(req.params)
   // allow change of description
   const findUser = await User.findOneAndUpdate(
     {
-      name: req.params.name
+      name: req.body.name
     },
     {
       description: req.body.description
     }
   )
-
-  res.send("redirect to pofile again")
+  console.log(findUser)
+  res.send("redirect to profile again")
 })
 // DELETE USER ACCOUNT
-app.delete("/user/:name", (req, res) => {
+app.delete("/user/:name", async (req, res) => {
   // allow change of description
   const findUser = await User.findOneAndDelete(
     {

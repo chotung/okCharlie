@@ -6,6 +6,7 @@ const UserSchema = new Schema({
   likeBy: [{}],
   likes: [{}],
   disLikes: [{}],
+  description: String
 });
 
 const User = mongoose.model("User", UserSchema);
