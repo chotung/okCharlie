@@ -13,15 +13,16 @@ import Header from './containers/Header';
 function App() {
 
   return (
-    
     <Router className="App">
       {/* <SwipeContainer /> */}
-      <Header/>
+      <Header />
 
       <Switch>
+        <Route path="/profilename">Profile</Route>
+        <Route path="/matches">Private Messaging</Route>
         <Route path="/">
-          <SwipeContainer/>  
-        </Route>    
+          <SwipeContainer />
+        </Route>
       </Switch>
     </Router>
   );

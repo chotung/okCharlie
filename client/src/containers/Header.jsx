@@ -1,36 +1,32 @@
 import React from "react";
 // import { Button, Menu, MenuItem, Switch } from "@material-ui/core"
-import { Button, Switch } from "@material-ui/core"
+import { Button } from "@material-ui/core"
 // Route if either A=I wanna swipe B=I wanna see who likes me
  import {
-  BrowserRouter as Router,
-  Route,
   Link
  } from "react-router-dom";
 
 
 
 const Header = () => {
-  const [state, setState] = React.useState({
-    checkedA: true,
-    checkedB: true
-  });
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  // const [state, setState] = React.useState({
+  //   checkedA: true,
+  //   checkedB: true
+  // });
+  // const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const handleChange = name => event => {
-    setState({ ...state, [name]: event.target.checked });
-  };
+  // const handleChange = name => event => {
+  //   setState({ ...state, [name]: event.target.checked });
+  // };
 
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const handleClick = event => {
+  //   setAnchorEl(event.currentTarget);
+  // };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-    // Reroute/render the appropriate page
-  };
-
-  console.log(anchorEl);
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  //   // Reroute/render the appropriate page
+  // };
   return (
     <div>
       <ul>

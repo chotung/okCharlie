@@ -9,6 +9,11 @@ const useStyles = makeStyles({
   }
 });
 
+const handleLike = (e) => {
+  console.dir(e.target.attributes.likefactor);
+  // const yesOrNo = e.target.data
+}
+
 const UserCard = () => {
   const classes = useStyles();
 
@@ -35,10 +40,10 @@ const UserCard = () => {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button onClick={handleLike} size="small" color="primary" likefactor="dislike">
           Dislike
         </Button>
-        <Button size="small" color="primary">
+        <Button onClick={handleLike} size="small" color="primary" likefactor="like">
           Like
         </Button>
       </CardActions>
