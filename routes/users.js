@@ -123,5 +123,3 @@ router.get("/users", async (req, res) => {
 });
 
 module.exports = router;
-
-module.exports = router
