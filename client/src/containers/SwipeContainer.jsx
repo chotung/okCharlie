@@ -7,7 +7,6 @@ import Header from './Header';
 const MainContainer = () => {
   return (
     <Container maxWidth="sm">
-      <Header/>
       <UserCard/>
     </Container>
   );

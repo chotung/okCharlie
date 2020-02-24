@@ -1,14 +1,32 @@
 import React from 'react';
 import './App.css';
-import MainContainer from './containers/MainContainer';
+import SwipeContainer from "./containers/SwipeContainer";
+ import {
+   BrowserRouter as Router,
+   Switch,
+   Route,
+  //  Link
+ } from "react-router-dom";
+import Header from './containers/Header';
 
 
 function App() {
+
   return (
-    <div className="App">
-      <MainContainer/>
-    </div>
+    
+    <Router className="App">
+      {/* <SwipeContainer /> */}
+      <Header/>
+
+      <Switch>
+        <Route path="/">
+          <SwipeContainer/>  
+        </Route>    
+      </Switch>
+    </Router>
   );
 }
 
 export default App;
+
+
