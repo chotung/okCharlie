@@ -1,16 +1,11 @@
 import React from 'react';
 import './App.css';
+import MainContainer from './containers/MainContainer';
 
 function App() {
   return (
     <div className="App">
-      <div className="container">
-        <div className="card">
-          <img src="" alt="" />
-          <h3>name</h3>
-          <p>description: </p>
-        </div>
-      </div>
+      <MainContainer/>
     </div>
   );
 }
