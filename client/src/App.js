@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import SwipeContainer from "./containers/SwipeContainer";
  import {
@@ -8,9 +8,31 @@ import SwipeContainer from "./containers/SwipeContainer";
   //  Link
  } from "react-router-dom";
 import Header from './containers/Header';
+import axios from 'axios';
 
 
-function App() {
+
+const App = () => {
+
+  const [charlie, setCharlie] = useState([]);
+
+  useEffect(() => {
+    getUser()
+
+
+  }, []);
+// =========================================
+// Helper  function
+
+
+  const getUser = async () => {
+    const result = await axios("/users");
+    setCharlie(result.data)
+    return result.data
+  };
+    console.log("Charlie", charlie);
+
+
 
   return (
     <Router className="App">
@@ -29,5 +51,6 @@ function App() {
 }
 
 export default App;
+
 
 
