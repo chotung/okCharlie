@@ -10,8 +10,19 @@ const useStyles = makeStyles({
 });
 
 const handleLike = (e) => {
-  console.dir(e.target.attributes.likefactor);
-  // const yesOrNo = e.target.data
+  const yesOrNo = e.currentTarget.dataset.id
+
+  if(yesOrNo === "like") {
+    console.log("I like this person");
+    // App User ID/Name
+    // loveInterest ID/Name
+    // Hit the like route
+  } else {
+    // App User ID/Name
+    // loveInterest ID/Name
+    // Hit the dislike route
+    console.log("HELL NO");
+  }
 }
 
 const UserCard = () => {
@@ -40,10 +51,10 @@ const UserCard = () => {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button onClick={handleLike} size="small" color="primary" likefactor="dislike">
+        <Button onClick={handleLike} size="small" color="primary" data-id="dislike">
           Dislike
         </Button>
-        <Button onClick={handleLike} size="small" color="primary" likefactor="like">
+        <Button onClick={handleLike} size="small" color="primary" data-id="like">
           Like
         </Button>
       </CardActions>
