@@ -25,9 +25,9 @@ const handleLike = (e) => {
   }
 }
 
-const UserCard = () => {
+const UserCard = (props) => {
   const classes = useStyles();
-
+  console.log("Card", props.users)
   return (
     <Card className={classes.root}>
       <CardActionArea>

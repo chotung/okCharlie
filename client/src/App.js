@@ -18,8 +18,6 @@ const App = () => {
 
   useEffect(() => {
     getUser()
-
-
   }, []);
 // =========================================
 // Helper  function
@@ -30,7 +28,7 @@ const App = () => {
     setCharlie(result.data)
     return result.data
   };
-    console.log("Charlie", charlie);
+    // console.log("Charlie", charlie);
 
 
 
@@ -43,7 +41,7 @@ const App = () => {
         <Route path="/profilename">Profile</Route>
         <Route path="/matches">Private Messaging</Route>
         <Route path="/">
-          <SwipeContainer />
+          <SwipeContainer users={charlie} />
         </Route>
       </Switch>
     </Router>

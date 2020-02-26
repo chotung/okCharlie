@@ -3,10 +3,10 @@ import UserCard from '../components/UserCard';
 import { Container } from "@material-ui/core";
 
 
-const MainContainer = () => {
+const MainContainer = (props) => {
   return (
     <Container maxWidth="sm">
-      <UserCard/>
+      <UserCard users={props.users} />
     </Container>
   );
 }
