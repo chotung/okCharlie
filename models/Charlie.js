@@ -6,7 +6,7 @@ const CharlieSchema = new Schema({
     type: String,
     required: true
   },
-  jobTitle: {
+  title: {
     type: String,
     required: true
   },

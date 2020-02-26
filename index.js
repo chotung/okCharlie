@@ -24,8 +24,6 @@ app.use(
 app.use(express.json());
 app.use(compression())
 
-
-
 // DATABASE CONFIGS
 
 mongoose.connect(process.env.DB_URL, {
@@ -39,6 +37,7 @@ const mongoDBstore = new MongoDBStore({
   uri: MongoURI,
   collection: "mySessions"
 });
+
 app.use(
   session({
     name: COOKIE_NAME, //name to be put in "key" field in postman etc
@@ -53,13 +52,11 @@ app.use(
     }
   })
 );
+
 db.on("error", console.error.bind(console, "Connection Error:"))
 db.once("open", () => {
   console.log("We're connected!")
 })
-
-
-
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
@@ -67,7 +64,7 @@ if (process.env.NODE_ENV === "production") {
 
 
 app.use("/api", require("./routes/users.js"));
-// app.use("/api", require("./routes/charlies.js"));
+app.use("/api", require("./routes/charlies.js"));
 
 app.get("*", (req, res) => {
   res.send("Hello World") 
