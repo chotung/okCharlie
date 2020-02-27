@@ -24,7 +24,7 @@ const App = () => {
 
 
   const getUser = async () => {
-    const result = await axios("/users");
+    const result = await axios("/api/users");
     setCharlie(result.data)
     return result.data
   };
