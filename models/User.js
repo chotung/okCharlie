@@ -36,7 +36,7 @@ const UserSchema = new Schema({
 
   likeBy: [{}],
   likes: [{}],
-  disLikes: [{}],
+  dislikes: [{}],
   description: String
 });
 

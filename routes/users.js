@@ -168,10 +168,40 @@ router.put("/likes", async (req, res) => {
       res.json({msg: "You Matched Hurray!!!", matched:true})
     }
   }
-   
   // ==== CHECK IF ITS A MATCH!!! <3 ==== //
-  
 });
+// DISLIKE
+router.put("/dislikes", async (req, res) => {
+  const { name, personLiked } = req.body;
+  // User/Person you swiped left    
+  // const appUser = await User.findOne({ name: name });
+  const loveInterest = await Charlie.findOne({
+    name: personLiked.name
+  });
+  const dislikedCharlie = await User.find({
+    "likes._id": loveInterest._id
+  });
+
+
+  if (dislikedCharlie.length !== 0) {
+    // res.send("You can't like the same person twice!!!!!!!!!!!!");
+    res.status(400).json({msg: "You didn't like this charlie???"})
+  } else {
+    // ELSE MEANING I DIDN'T DISLIKE THIS PERSON YET
+    // HANDLES THE USER LIKES ARRAY
+    await User.findOneAndUpdate(
+      { name: name },
+      {
+        $push: {
+          dislikes: { name: loveInterest.name, _id: loveInterest._id }
+        }
+      }
+    );
+  }
+  res.json({msg: "You dislike the man of your dreams..."})
+});
+
+
 
 
 

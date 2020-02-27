@@ -16,7 +16,7 @@ const CharlieSchema = new Schema({
   },
   likeBy: [{}],
   likes: [{}],
-  disLikes: [{}],
+  dislikes: [{}],
   description: String
 });
 
