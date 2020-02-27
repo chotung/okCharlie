@@ -9,7 +9,7 @@ const {
   IS_PROD,
   COOKIE_NAME
 } = require("./config/config");
-const { MongoURI } = require("./config/database");
+const { MongoURI } = process.env.DB_URL || require("./config/database");
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const mongoose = require("mongoose")
