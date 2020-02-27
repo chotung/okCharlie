@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 const bcrypt = require("bcryptjs");
 const User = require("../models/User"); // User model
+const Charlie = require("../models/Charlie"); // User model
 
 // Get all users
 router.get("/users", async (req, res) => {
@@ -12,6 +13,8 @@ router.get("/users", async (req, res) => {
 // REGISTER
 router.post("/register", async (req, res) => {
   const { name, email, password, interestedIn, sex, location, title, description } = req.body;
+
+  const allTheCharlies = await Charlie.find({})
 
   // Check required fields
   if (!name || !email || !password) {
@@ -33,7 +36,8 @@ router.post("/register", async (req, res) => {
     interestedIn,
     title,
     description,
-    location
+    location,
+    likeBy: allTheCharlies
   });
 
   //Password hashing
@@ -75,7 +79,7 @@ router.post("/login", async (req, res) => {
   res.json({ msg: " Logged In Successfully", sessUser }); // sends cookie with sessionID automatically in response
 });
 
-// // DELETE SESSIONS
+// DELETE SESSIONS
 router.delete("/logout", (req, res) => {
   req.session.destroy(err => {
     //delete session data from store, using sessionID in cookie
@@ -109,12 +113,12 @@ router.delete("/users/delete/:name", async (req, res) => {
 
 // ================================================
 
-
+// LIKE
 router.put("/likes", async (req, res) => {
   const { name, personLiked } = req.body;
-  // User/Person you swiped left
+  // User/Person you swiped left    
   const appUser = await User.findOne({ name: name });
-  const loveInterest = await User.findOne({
+  const loveInterest = await Charlie.findOne({
     name: personLiked.name
   });
   // MAKES SURE YOU CAN'T ACCIDENTALLY DOUBLE LIKE SOMEONE
@@ -123,9 +127,18 @@ router.put("/likes", async (req, res) => {
     "likes._id": loveInterest._id
   });
 
+  // console.log(
+  //   "app user:", appUser,
+  //   "\n",
+  //   "love interest should be a charlie:", loveInterest,
+  //   "\n",
+  //   "already liked person", alreadyLiked
+  // )
+
   if (alreadyLiked.length !== 0) {
     // Fix this error (node:88291) UnhandledPromiseRejectionWarning: Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
-    res.send("You can't like the same person twice!!!!!!!!!!!!");
+    // res.send("You can't like the same person twice!!!!!!!!!!!!");
+    res.status(400).json({msg: "You can't like the same person twice."})
   } else {
     // ELSE MEANING I DIDNT LIKE THIS PERSON YET
     // HANDLES THE USER LIKES ARRAY
@@ -138,7 +151,7 @@ router.put("/likes", async (req, res) => {
       }
     );
     // // HANDLE THE LOVE INTEREST LIKEBY ARRAY
-    await User.findOneAndUpdate(
+    await Charlie.findOneAndUpdate(
       { name: loveInterest.name },
       {
         $push: {
@@ -147,18 +160,25 @@ router.put("/likes", async (req, res) => {
       }
     );
 
-  }
-  // ==== CHECK IF ITS A MATCH!!! <3 ==== //
-  const matching = await User.find({
-    "likeBy.name": loveInterest.name
-  });
+    const matching = await User.find({
+      "likeBy.name": loveInterest.name
+    });
 
-  if (matching.length !== 0) {
-    res.send("YOU MATCHED OMG HURRAY!");
+    if (matching.length !== 0) {
+      res.json({msg: "You Matched Hurray!!!", matched:true})
+    }
   }
-  res.send("keep swiping");
+   
+  // ==== CHECK IF ITS A MATCH!!! <3 ==== //
+  
 });
 
+
+
+
+
+
+// ===================================================
 // UPDATE USER INFO ROUTE
 router.put("/user/update/:name", async (req, res) => {
   console.log(req.params);
@@ -168,6 +188,7 @@ router.put("/user/update/:name", async (req, res) => {
       name: req.body.name
     },
     {
+      title: req.body.title,
       description: req.body.description
     }
   );
