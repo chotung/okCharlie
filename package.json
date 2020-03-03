@@ -14,7 +14,7 @@
     "client": "concurrently \"cd client\" \" npm run start\"",
     "install":"concurrently \"cd client\" \"npm install\"",
     "build": "concurrently \"cd client\" \" npm run build\"",
-    "heroku-postbuild": "concurrently \"npm run seed\" \"npm run build\" "
+    "heroku-postbuild":  "npm run build "
   },
   "dependencies": {
     "axios": "^0.19.1",
