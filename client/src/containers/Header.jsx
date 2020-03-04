@@ -6,30 +6,20 @@ import { Button } from "@material-ui/core"
   Link
  } from "react-router-dom";
 
+ const hStyles = {
+   container : {
+     display: "flex",
+     listStyle: "none",
+     justifyContent: "center",
+     padding: "0"
+   }
+ }
 
 
 const Header = () => {
-  // const [state, setState] = React.useState({
-  //   checkedA: true,
-  //   checkedB: true
-  // });
-  // const [anchorEl, setAnchorEl] = React.useState(null);
-
-  // const handleChange = name => event => {
-  //   setState({ ...state, [name]: event.target.checked });
-  // };
-
-  // const handleClick = event => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  //   // Reroute/render the appropriate page
-  // };
   return (
     <div>
-      <ul>
+      <ul style={hStyles.container}>
         <li>
           <Link to="/profilename">
             <Button>Profile</Button>
@@ -51,18 +41,3 @@ const Header = () => {
 }
 
 export default Header;
-
-
-
-/**
- *  <Button>Swipe</Button>
-      <Button>Liked</Button> 
-
-       <Switch
-        checked={state.checkedA}
-        onChange={handleChange("checkedA")}
-        value="checkedA"
-        inputProps={{ "aria-label": "secondary checkbox" }}
-      /> 
-
- */

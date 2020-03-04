@@ -3,10 +3,17 @@ import UserCard from '../components/UserCard';
 import { Container } from "@material-ui/core";
 
 
+
+const renderAllCharlies = (charlies) => {
+  return charlies.map(charlie => {
+    return <UserCard key={charlie._id} id={charlie._id} users={charlie}/>
+  })
+}
+
 const MainContainer = (props) => {
   return (
     <Container maxWidth="sm">
-      <UserCard users={props.users} />
+      {renderAllCharlies(props.charlies)}
     </Container>
   );
 }

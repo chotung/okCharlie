@@ -27,7 +27,8 @@ const handleLike = (e) => {
 
 const UserCard = (props) => {
   const classes = useStyles();
-  console.log("Card", props.users)
+  const { description, name} = props.users
+
   return (
     <Card className={classes.root}>
       <CardActionArea>
@@ -41,12 +42,10 @@ const UserCard = (props) => {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Vanilla Charlie
+            {name}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Vanilla Charlie is the purest and most basic flavor of Charlie
-            available. Best for those looking for a solid relationship building
-            gentleman
+            {description}
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -63,3 +62,5 @@ const UserCard = (props) => {
 }
 
 export default UserCard;
+
+

@@ -24,7 +24,8 @@ const App = () => {
 
 
   const getUser = async () => {
-    const result = await axios("/api/users");
+    const result = await axios("/api/charlies");
+    console.log(result.data)
     setCharlie(result.data)
     return result.data
   };
@@ -41,7 +42,7 @@ const App = () => {
         <Route path="/profilename">Profile</Route>
         <Route path="/matches">Private Messaging</Route>
         <Route path="/">
-          <SwipeContainer users={charlie} />
+          <SwipeContainer charlies={charlie} />
         </Route>
       </Switch>
     </Router>
