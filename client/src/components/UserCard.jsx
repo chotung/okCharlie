@@ -1,6 +1,8 @@
 import React from "react";
 import { Button, Card, CardActions, CardActionArea, CardContent, CardMedia, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles"
+// import axios from "axios"
+
 
 const useStyles = makeStyles({
   root: {
@@ -9,7 +11,7 @@ const useStyles = makeStyles({
   }
 });
 
-const handleLike = (e) => {
+const handleLike = async (e) => {
   const yesOrNo = e.currentTarget.dataset.id
 
   if(yesOrNo === "like") {

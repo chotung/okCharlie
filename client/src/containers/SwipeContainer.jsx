@@ -1,7 +1,7 @@
 import React from 'react';
 import UserCard from '../components/UserCard';
 import { Container } from "@material-ui/core";
-
+import Header from "./Header"
 
 
 const renderAllCharlies = (charlies) => {
@@ -12,7 +12,9 @@ const renderAllCharlies = (charlies) => {
 
 const MainContainer = (props) => {
   return (
+
     <Container maxWidth="sm">
+      <Header/>
       {renderAllCharlies(props.charlies)}
     </Container>
   );
