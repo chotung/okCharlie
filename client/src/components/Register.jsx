@@ -1,51 +1,54 @@
 import React from "react"
+import { Button, FilledInput, Radio, FormControl, FormLabel, FormControlLabel, RadioGroup } from "@material-ui/core";
 
+/**
+ * NAME
+ * PASSWORD
+ * EMAIL
+ * TITLE
+ * INTERESTED IN
+ * SEX
+ * LOCATION*** DON'T IMPLEMENT YET
+ * DESCRIPTION
+ * ADD A PLCE TO UPLOAD IMAGES ************ DON'T IMPLEMENT YET
+ */
 
 const Register = (props) => {
- return (
-   <div className="registerCon">
-     <div className="customRow">
-       <img
-         className="imageStyle"
-         alt="avatar"
 
-       />
-       <div className="registerCol" sm={12}>
-         <form className="registerForm" 
-        //  onSubmit={submit}
-        >
-           <div className="form-group">
-             <label htmlFor="name">Name</label>
-             <input
-              //  onChange={update}
-               name="name"
-               type="text"
-               className="form-control"
-               placeholder="Enter Your Name"
-             />
-             <label htmlFor="email">Email</label>
-             <input
-              //  onChange={update}
-               name="email"
-               type="email"
-               className="form-control"
-               placeholder="Enter Your Email"
-             />
-             <label htmlFor="password">Password</label>
-             <input
-               name="password"
-              //  onChange={update}
-              //  value={password}
-               type="password"
-               className="form-control"
-             />
-           </div>
-           <button type="submit" value="Submit" data-type="register">
-             Submit
-           </button>
-         </form>
-       </div>
-     </div>
+  const [value, setValue] = React.useState("female");
+
+  const handleChange = event => {
+    setValue(event.target.value);
+  };
+ return (
+   <div className="regi-container">
+     <form action="" className="register-form">
+       <FilledInput defaultValue="Name" fullWidth={true}></FilledInput>
+       <FilledInput defaultValue="title" fullWidth={true}></FilledInput>
+       <FilledInput defaultValue="email" fullWidth={true}></FilledInput>
+       <FilledInput defaultValue="password" fullWidth={true}></FilledInput>
+       <FilledInput defaultValue="description" fullWidth={true}></FilledInput>
+       <FormControl component="fieldset">
+         <FormLabel component="legend">Gender</FormLabel>
+         <RadioGroup
+           aria-label="gender"
+           name="gender1"
+           value={value}
+           onChange={handleChange}
+         >
+           <FormControlLabel
+             value="female"
+             control={<Radio />}
+             label="Female"
+           />
+           <FormControlLabel value="male" control={<Radio />} label="Male" />
+         </RadioGroup>
+       </FormControl>
+
+       <Button variant="contained" color="primary" type="submit" name="Submit">
+         Submit
+       </Button>
+     </form>
    </div>
  );
 }
