@@ -1,54 +1,61 @@
-import React, { useEffect, useState } from 'react';
+import React, { Component } from 'react';
+import axios from 'axios';
 import './App.css';
 import SwipeContainer from "./containers/SwipeContainer";
  import {
    BrowserRouter as Router,
    Switch,
    Route,
-  //  Link
+  //  Redirect,
+  //  useHistory,
+  //  useLocation
  } from "react-router-dom";
-import Header from './containers/Header';
-import axios from 'axios';
+// import Header from "./containers/Header";
+import PrivateRoute from "./components/PrivateRoute"
+import Authenticate from './containers/Authenticate';
 
 
 
-const App = () => {
-
-  const [charlie, setCharlie] = useState([]);
-
-  useEffect(() => {
-    getUser()
-  }, []);
-// =========================================
-// Helper  function
-
-
-  const getUser = async () => {
-    const result = await axios("/api/users");
-    setCharlie(result.data)
-    return result.data
+class App extends Component {
+  state = {
+    charlies: [],
+    user: {}
   };
-    // console.log("Charlie", charlie);
+  componentDidMount() {
+    const { getCharlies } = this;
+    getCharlies();
+  }
 
+  getCharlies = async () => {
+    const results = await axios("/api/charlies");
+    const data = await results.data
+    this.setState({
+      charlies: data
+    });
+  };
+  
 
+  render() {
 
-  return (
-    <Router className="App">
-      {/* <SwipeContainer /> */}
-      <Header />
-
-      <Switch>
-        <Route path="/profilename">Profile</Route>
-        <Route path="/matches">Private Messaging</Route>
-        <Route path="/">
-          <SwipeContainer users={charlie} />
-        </Route>
-      </Switch>
-    </Router>
-  );
+    return (
+      <Router className="App">
+        <Switch>
+          <Route path="/auth">
+            <Authenticate />
+          </Route>
+          <Route path="/profilename">Profile</Route>
+          <Route path="/matches">Private Messaging</Route>
+          <PrivateRoute path="/">
+            <SwipeContainer charlies={this.state.charlies} />
+          </PrivateRoute>
+        </Switch>
+      </Router>
+    );
+  }
 }
-
 export default App;
 
+        // <Header />;
 
 
+// ================================

@@ -10,7 +10,7 @@ const data = [
         name: "Vanilla Charlie",
         interestedIn: "Female",
         title: "The Duke of Vanilla",
-        description: "The basic but reliable flavor of Charlie. Always there and loyal; will stick by your side till the end."
+        description: "Vanilla Charlie is the purest and most basic flavor of Charlie available. Best for those looking for a solid relationship building gentleman"
       },
       { 
         name: "Chocolate Charlie",
