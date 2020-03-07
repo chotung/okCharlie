@@ -14,20 +14,41 @@ import { Button, FilledInput, Radio, FormControl, FormLabel, FormControlLabel, R
  */
 
 const Register = (props) => {
-
-  const [value, setValue] = React.useState("female");
-
-  const handleChange = event => {
-    setValue(event.target.value);
-  };
+  const { handleChange, handleSubmit, value } = props
+  const { name } = props.regiState
  return (
    <div className="regi-container">
-     <form action="" className="register-form">
-       <FilledInput defaultValue="Name" fullWidth={true}></FilledInput>
-       <FilledInput defaultValue="title" fullWidth={true}></FilledInput>
-       <FilledInput defaultValue="email" fullWidth={true}></FilledInput>
-       <FilledInput defaultValue="password" fullWidth={true}></FilledInput>
-       <FilledInput defaultValue="description" fullWidth={true}></FilledInput>
+     <form action="" className="register-form" onSubmit={handleSubmit}>
+       <FilledInput
+         name="name"
+         placeholder="Name"
+         fullWidth={true}
+         onChange={handleChange}
+       ></FilledInput>
+       <FilledInput
+         name="title"
+         placeholder="title"
+         fullWidth={true}
+         onChange={handleChange}
+       ></FilledInput>
+       <FilledInput
+         name="email"
+         placeholder="email"
+         fullWidth={true}
+         onChange={handleChange}
+       ></FilledInput>
+       <FilledInput
+         name="password"
+         placeholder="password"
+         fullWidth={true}
+         onChange={handleChange}
+       ></FilledInput>
+       <FilledInput
+         name="description"
+         placeholder="description"
+         fullWidth={true}
+         onChange={handleChange}
+       ></FilledInput>
        <FormControl component="fieldset">
          <FormLabel component="legend">Gender</FormLabel>
          <RadioGroup
