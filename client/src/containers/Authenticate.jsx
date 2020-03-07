@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import Register from "../components/Register"
 import Login from "../components/Login"
-import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Link, Route, Redirect, Switch } from 'react-router-dom'
 import { Button } from "@material-ui/core"
+import axios from "axios"
 
 // REGISTER | LOGIN WILL SET THE SESSION STORAGE
 
@@ -14,49 +15,46 @@ class Authenticate extends Component {
       name: "",
       title: "",
       password: "",
-      description: ""
-    },
-    value: "female"
+      description: "",
+      sex: "female",
+      interestedIn: "male"
+    }
   };
 
-  // const [value, setValue] = React.useState("female");
 
   handleChange = event => {
     const nameOfEle = event.target.name;
     const value = event.target.value;
-    if (nameOfEle === "gender1") {
-      this.setState({
-        value
+
+    this.setState(prevState => ({
+      ...prevState,
+      registerState: {
+        ...prevState.registerState,
+        [nameOfEle]: value
+      }
+    }));
+  };
+  handleSubmit = async event => {
+    event.preventDefault();
+    const data = this.state.registerState
+    console.log(data)
+    try {
+      const request = await axios({
+        method: "POST",
+        url: "/api/register",
+        data
       });
-    } else {
-      this.setState(prevState => ({
-        ...prevState,
-        registerState: {
-          ...prevState.registerState,
-          [nameOfEle]: value
-        }
-      }));
+    return <Redirect to="/" />
+
+    } catch (error) {
+      console.error(error)
     }
   };
 
-  /**
-   * {
-        registerState: {
-          [nameOfEle]: value
-        }
-      }
-   */
-
-  handleSubmit = event => {
-    event.preventDefault();
-    // grab the state in the submit
-    // make the api call
-  };
-
   render() {
+    console.log(this.state)
     const { handleChange, handleSubmit } = this;
-    const { value, registerState } = this.state;
-    console.log(this.state);
+    const { registerState } = this.state;
     return (
       <Router>
         <Link to="/auth/login">
@@ -72,7 +70,6 @@ class Authenticate extends Component {
           </Route>
           <Route path="/auth/register">
             <Register
-              value={value}
               handleChange={handleChange}
               handleSubmit={handleSubmit}
               regiState={registerState}
@@ -86,12 +83,3 @@ class Authenticate extends Component {
 }
 
 export default Authenticate;
-
-
-
-/**
- *    name: "",
-    title: "",
-    password: "",
-    description: ""
- */

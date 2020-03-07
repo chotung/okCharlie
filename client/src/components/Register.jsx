@@ -14,8 +14,8 @@ import { Button, FilledInput, Radio, FormControl, FormLabel, FormControlLabel, R
  */
 
 const Register = (props) => {
-  const { handleChange, handleSubmit, value } = props
-  const { name } = props.regiState
+  const { handleChange, handleSubmit } = props
+  const { name, title, password, email, description, interestedIn, sex } = props.regiState
  return (
    <div className="regi-container">
      <form action="" className="register-form" onSubmit={handleSubmit}>
@@ -23,38 +23,61 @@ const Register = (props) => {
          name="name"
          placeholder="Name"
          fullWidth={true}
+         value={name}
          onChange={handleChange}
        ></FilledInput>
        <FilledInput
          name="title"
+         value={title}
          placeholder="title"
          fullWidth={true}
          onChange={handleChange}
        ></FilledInput>
        <FilledInput
+        //  value={email}
          name="email"
          placeholder="email"
+         type="email"
          fullWidth={true}
          onChange={handleChange}
        ></FilledInput>
        <FilledInput
+         value={password}
          name="password"
+         type="password"
          placeholder="password"
          fullWidth={true}
          onChange={handleChange}
        ></FilledInput>
        <FilledInput
+         value={description}
          name="description"
          placeholder="description"
          fullWidth={true}
          onChange={handleChange}
        ></FilledInput>
        <FormControl component="fieldset">
-         <FormLabel component="legend">Gender</FormLabel>
+         <FormLabel component="legend">Sex</FormLabel>
          <RadioGroup
            aria-label="gender"
-           name="gender1"
-           value={value}
+           name="sex"
+           value={sex}
+           onChange={handleChange}
+         >
+           <FormControlLabel
+             value="female"
+             control={<Radio />}
+             label="Female"
+           />
+           <FormControlLabel value="male" control={<Radio />} label="Male" />
+         </RadioGroup>
+       </FormControl>
+       <FormControl component="fieldset">
+         <FormLabel component="legend">Interested In</FormLabel>
+         <RadioGroup
+           aria-label="interestedIn"
+           name="interestedIn"
+           value={interestedIn}
            onChange={handleChange}
          >
            <FormControlLabel
