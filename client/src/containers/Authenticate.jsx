@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Register from "../components/Register"
 import Login from "../components/Login"
-import { BrowserRouter as Router, Link, Route, Redirect, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Link, Route, Switch, Redirect } from 'react-router-dom'
 import { Button } from "@material-ui/core"
 import axios from "axios"
 
@@ -10,18 +10,20 @@ import axios from "axios"
 // SHOW EITHER ONE BASED ON A CLICK 
 
 class Authenticate extends Component {
-  state = {
-    registerState: {
-      name: "",
-      title: "",
-      password: "",
-      description: "",
-      sex: "female",
-      interestedIn: "male"
-    }
-  };
-
-
+  constructor(props){
+    super(props);
+  
+    this.state = {
+      registerState: {
+        name: "",
+        title: "",
+        password: "",
+        description: "",
+        sex: "female",
+        interestedIn: "male"
+      }
+    };
+  }
   handleChange = event => {
     const nameOfEle = event.target.name;
     const value = event.target.value;
@@ -34,27 +36,37 @@ class Authenticate extends Component {
       }
     }));
   };
+
   handleSubmit = async event => {
     event.preventDefault();
-    const data = this.state.registerState
-    console.log(data)
+    const data = this.state.registerState;
     try {
-      const request = await axios({
-        method: "POST",
-        url: "/api/register",
-        data
-      });
-    return <Redirect to="/" />
+      // const registerUser = await axios({
+      //   method: "POST",
+      //   url: "/api/register",
+      //   data
+      // });
 
+      // const login = await axios({
+      //   method: "POST",
+      //   url: "/api/login",
+      //   data
+      // })
+
+      // const { sessUser } = await login.data
+      // const parsedStrSess = JSON.stringify(sessUser)
+      // sessionStorage.setItem("User", parsedStrSess)
+   
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
 
   render() {
-    console.log(this.state)
     const { handleChange, handleSubmit } = this;
     const { registerState } = this.state;
+
+
     return (
       <Router>
         <Link to="/auth/login">

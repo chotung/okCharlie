@@ -15,7 +15,6 @@ router.post("/register", async (req, res) => {
   const { name, email, password, interestedIn, sex, location, title, description } = req.body;
 
   const allTheCharlies = await Charlie.find({})
-
   // Check required fields
   if (!name || !email || !password) {
     return res.status(400).json({ msg: "Please enter all fields" });
@@ -39,6 +38,7 @@ router.post("/register", async (req, res) => {
     location,
     likeBy: allTheCharlies
   });
+  console.log(newUser)
 
   //Password hashing
   bcrypt.genSalt(12, (err, salt) =>

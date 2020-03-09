@@ -15,7 +15,7 @@ import { Button, FilledInput, Radio, FormControl, FormLabel, FormControlLabel, R
 
 const Register = (props) => {
   const { handleChange, handleSubmit } = props
-  const { name, title, password, email, description, interestedIn, sex } = props.regiState
+  const { name, title, password, description, interestedIn, sex } = props.regiState
  return (
    <div className="regi-container">
      <form action="" className="register-form" onSubmit={handleSubmit}>
@@ -46,6 +46,14 @@ const Register = (props) => {
          name="password"
          type="password"
          placeholder="password"
+         fullWidth={true}
+         onChange={handleChange}
+       ></FilledInput>
+       <FilledInput
+         value={password}
+         name="confirm-password"
+         type="confirm-password"
+         placeholder="confirm password"
          fullWidth={true}
          onChange={handleChange}
        ></FilledInput>
