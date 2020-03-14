@@ -31,7 +31,7 @@
     "mongoose-seed": "^0.6.0"
   },
   "engines": {
-    "node": "12.12.0"
+    "node": "*"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"

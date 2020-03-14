@@ -1,10 +1,12 @@
 import React from "react"
 
 
-const Auth = () => {
+const Auth = (props) => {
+  const { auth } = props
   return (
     <div>
-      Auth
+      <button name="login" onClick={auth}>LOGIN</button>
+      <button name="register" onClick={auth}>REGISTER</button>
     </div>
   )
 }
