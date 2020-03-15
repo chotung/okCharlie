@@ -1,5 +1,5 @@
 import React from "react"
-import { Button, FilledInput, Radio, FormControl, FormLabel, FormControlLabel, RadioGroup } from "@material-ui/core";
+import { Button, FilledInput, Radio, FormControl, FormLabel, FormGroup, FormControlLabel, RadioGroup } from "@material-ui/core";
 
 /**
  * NAME
@@ -19,51 +19,52 @@ const Register = (props) => {
  return (
    <div className="regi-container">
      <form action="" className="register-form" onSubmit={handleSubmit}>
+       <FormGroup>
        <FilledInput
          name="name"
          placeholder="Name"
-         fullWidth={true}
+         //  fullWidth={true}
          value={name}
          onChange={handleChange}
-       ></FilledInput>
+         ></FilledInput>
        <FilledInput
          name="title"
          value={title}
          placeholder="title"
-         fullWidth={true}
+         //  fullWidth={true}
          onChange={handleChange}
-       ></FilledInput>
+         ></FilledInput>
        <FilledInput
         //  value={email}
-         name="email"
-         placeholder="email"
-         type="email"
-         fullWidth={true}
-         onChange={handleChange}
-       ></FilledInput>
+        name="email"
+        placeholder="email"
+        type="email"
+        //  fullWidth={true}
+        onChange={handleChange}
+        ></FilledInput>
        <FilledInput
          value={password}
          name="password"
          type="password"
          placeholder="password"
-         fullWidth={true}
+         //  fullWidth={true}
          onChange={handleChange}
-       ></FilledInput>
+         ></FilledInput>
        <FilledInput
          value={password}
          name="confirm-password"
          type="confirm-password"
          placeholder="confirm password"
-         fullWidth={true}
+         //  fullWidth={true}
          onChange={handleChange}
-       ></FilledInput>
+         ></FilledInput>
        <FilledInput
          value={description}
          name="description"
          placeholder="description"
-         fullWidth={true}
+         //  fullWidth={true}
          onChange={handleChange}
-       ></FilledInput>
+         ></FilledInput>
        <FormControl component="fieldset">
          <FormLabel component="legend">Sex</FormLabel>
          <RadioGroup
@@ -71,12 +72,12 @@ const Register = (props) => {
            name="sex"
            value={sex}
            onChange={handleChange}
-         >
+           >
            <FormControlLabel
              value="female"
              control={<Radio />}
              label="Female"
-           />
+             />
            <FormControlLabel value="male" control={<Radio />} label="Male" />
          </RadioGroup>
        </FormControl>
@@ -87,15 +88,16 @@ const Register = (props) => {
            name="interestedIn"
            value={interestedIn}
            onChange={handleChange}
-         >
+           >
            <FormControlLabel
              value="female"
              control={<Radio />}
              label="Female"
-           />
+             />
            <FormControlLabel value="male" control={<Radio />} label="Male" />
          </RadioGroup>
        </FormControl>
+      </FormGroup> 
 
        <Button variant="contained" color="primary" type="submit" name="Submit">
          Submit

@@ -1,8 +1,10 @@
 import React from "react";
-// import {
-//   Button,
-//   FilledInput,
-// } from "@material-ui/core";
+import {
+  Button,
+  FilledInput,
+  InputLabel,
+  FormGroup  
+} from "@material-ui/core";
 
 // /**
 //  * NAME
@@ -30,9 +32,6 @@ import React from "react";
 //   );
 // };
 
-// export default Login;
-
-
 const Login = (props) => {
   //  console.log("LOGIN COMPONENT", props);
   const { update, submit } = props
@@ -42,9 +41,9 @@ const Login = (props) => {
       <div className="customRow">
         <div className="registerCol" sm={12}>
           <form className="registerForm" onSubmit={submit}>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
+            <FormGroup  className="form-group">
+              <InputLabel htmlFor="email">Email</InputLabel>
+              <FilledInput
                 onChange={update}
                 value={email}
                 name="email"
@@ -52,24 +51,24 @@ const Login = (props) => {
                 className="form-control"
                 placeholder="Enter Your Email"
               />
-              <label htmlFor="password">Password</label>
-              <input
+              <InputLabel htmlFor="password">Password</InputLabel>
+              <FilledInput
                 name="password"
                 type="password"
                 className="form-control"
+                placeholder="Password"
                 value={password}
                 onChange={update}
               />
-            </div>
-            <button type="submit" value="Submit" data-type="login">
+            </FormGroup >
+            <Button variant="contained" color="primary" type="submit" value="Submit" data-type="login">
               Submit
-            </button>
+            </Button>
           </form>
         </div>
       </div>
     </div>
   );
 }
-
 
 export default Login
