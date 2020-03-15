@@ -1,7 +1,7 @@
 import React from 'react';
-// import UserCard from '../components/UserCard';
-// import { Container } from "@material-ui/core";
-// import Header from "./Header"
+import UserCard from '../components/UserCard';
+import { Container } from "@material-ui/core";
+import Header from "./Header"
 
 
 // const renderAllCharlies = (charlies) => {
@@ -23,10 +23,10 @@ import React from 'react';
 
 
 const SwipeContainer = (props) => {
-  console.log(props.auth);
+  console.log(props);
   return (
     <div>
-      <button>LOGIN</button>
+      THIS WILL BE THE WIPER OF SWIPERS
     </div>
   )
 }

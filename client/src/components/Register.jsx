@@ -15,7 +15,7 @@ import { Button, FilledInput, Radio, FormControl, FormLabel, FormControlLabel, R
 
 const Register = (props) => {
   const { handleChange, handleSubmit } = props
-  const { name, title, password, description, interestedIn, sex } = props.regiState
+  const { name, title, password, description, interestedIn, sex } = props.registerInfo
  return (
    <div className="regi-container">
      <form action="" className="register-form" onSubmit={handleSubmit}>

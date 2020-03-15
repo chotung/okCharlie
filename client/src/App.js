@@ -1,7 +1,15 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom"
-import Login from "./components/Login"
+import React, { Component } from "react";
+import {  Switch, Route } from "react-router-dom"
 import history from "./utils/history"
+// Components
+import Auth from "./components/Auth";
+import Login from "./components/Login"
+import Register from "./components/Register"
+// Containers
+import SwipeContainer from "./containers/SwipeContainer"
+
+
+
 
 class App extends Component {
   // HOLD THE DATA FROM THE FORMS
@@ -14,17 +22,23 @@ class App extends Component {
     register: {
       email: "",
       password: "",
-      name: ""
+      name: "",
+      interestedIn: "male",
+      sex: "female"
     },
     user: undefined,
     charlies: []
   }
 
   componentDidMount() {
+    this.checkUser()
+  }
+
+  checkUser = () => {
     const { user } = this.state
-    // console.log(user);
-    if(user) {
-      // route to home
+    if (user) {
+      // USER IS LOGGED IN
+      history.push("/")
       console.log("send me home");
     } else {
       // check session storage
@@ -33,6 +47,7 @@ class App extends Component {
       history.push("/auth/register")
     }
   }
+
   
   formValueUpdate = (e) => {
     // console.log(e.target)
@@ -122,7 +137,7 @@ class App extends Component {
 
 
   render() {
-    const { login } = this.state
+    const { login, register } = this.state
     const { submit, formValueUpdate } = this
     console.log(this.state);
     return (
@@ -130,10 +145,15 @@ class App extends Component {
       <div className="div">
 
         <Switch>
+          <Route exact path="/auth">
+            <Auth />
+          </Route>
           <Route path="/auth/register">
-            register
+            <Auth />
+            <Register submit={submit} registerInfo={register} update={formValueUpdate} />
           </Route>
           <Route path="/auth/login">
+            <Auth />
             <Login 
               submit={submit}
               loginInfo={login}
@@ -141,7 +161,7 @@ class App extends Component {
               />
           </Route>
           <Route path="/">
-            Home
+            <SwipeContainer/>
           </Route>
       
 
