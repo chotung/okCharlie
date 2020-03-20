@@ -7,6 +7,7 @@ import Login from "./components/Login"
 import Register from "./components/Register"
 // Containers
 import SwipeContainer from "./containers/SwipeContainer"
+import Axios from "axios";
 
 
 
@@ -20,8 +21,11 @@ class App extends Component {
       password: ""
     },
     register: {
+      title: "",
+      description: "",
       email: "",
       password: "",
+      passwordConfirmation: "",
       name: "",
       interestedIn: "male",
       sex: "female"
@@ -36,13 +40,13 @@ class App extends Component {
 
   checkUser = () => {
     const { user } = this.state
+    // check session storage
     if (user) {
       // USER IS LOGGED IN
       history.push("/")
-      console.log("send me home");
+      // console.log("send me home");
     } else {
-      // check session storage
-      console.log("send me to register/login");
+      // console.log("send me to register/login");
       // They aren't log/signed in
       history.push("/auth/register")
     }
@@ -50,11 +54,10 @@ class App extends Component {
 
   
   formValueUpdate = (e) => {
-    // console.log(e.target)
     const relPath = window.location.pathname;
     const { value, name, } = e.target
-    // console.log(value, name, relPath)
-    if (relPath === "/login") {
+    // console.log("value: ", value, "\n", "name: ", name, "\n", "relative path: ", relPath)
+    if (relPath === "/auth/login") {
       switch (name) {
         case "email":
           this.setState(prevState => ({
@@ -75,14 +78,19 @@ class App extends Component {
         default:
           break
       }
-    } else if (relPath === "/register") {
+    } else if (relPath === "/auth/register") {
       switch (name) {
         case "email":
           this.setState(prevState => ({
             register: {
               password: prevState.register.password,
               name: prevState.register.name,
-              email: value
+              passwordConfirmation: prevState.register.passwordConfirmation,
+              email: value,
+              interestedIn: prevState.register.interestedIn,
+              sex: prevState.register.sex,
+              title: prevState.register.title,
+              description: prevState.register.description
             }
           }));
           break;
@@ -91,7 +99,26 @@ class App extends Component {
             register: {
               name: prevState.register.name,
               password: value,
-              email: prevState.register.email
+              passwordConfirmation: prevState.register.passwordConfirmation,
+              email: prevState.register.email,
+              interestedIn: prevState.register.interestedIn,
+              sex: prevState.register.sex,
+              title: prevState.register.title,
+              description: prevState.register.description
+            }
+          }));
+          break;
+        case "confirm-password":
+          this.setState(prevState => ({
+            register: {
+              name: prevState.register.name,
+              password: prevState.register.password,
+              passwordConfirmation: value,
+              email: prevState.register.email,
+              interestedIn: prevState.register.interestedIn,
+              sex: prevState.register.sex,
+              title: prevState.register.title,
+              description: prevState.register.description
             }
           }));
           break;
@@ -100,10 +127,71 @@ class App extends Component {
             register: {
               name: value,
               password: prevState.register.password,
-              email: prevState.register.email
+              passwordConfirmation: prevState.register.passwordConfirmation,
+              email: prevState.register.email,
+              interestedIn: prevState.register.interestedIn,
+              sex: prevState.register.sex,
+              title: prevState.register.title,
+              description: prevState.register.description
             }
           }));
           break
+        case "sex":
+          this.setState(prevState => ({
+            register: {
+              name: prevState.register.name,
+              password: prevState.register.password,
+              passwordConfirmation: prevState.register.passwordConfirmation,
+              email: prevState.register.email,
+              interestedIn: prevState.register.interestedIn,
+              sex: value,
+              title: prevState.register.title,
+              description: prevState.register.description
+            }
+          }));
+          break
+        case "interestedIn":
+          this.setState(prevState => ({
+            register: {
+              name: prevState.register.name,
+              password: prevState.register.password,
+              passwordConfirmation: prevState.register.passwordConfirmation,
+              email: prevState.register.email,
+              interestedIn: value,
+              sex: prevState.register.sex,
+              title: prevState.register.title,
+              description: prevState.register.description
+            }
+          }));
+          break
+        case "title":
+        this.setState(prevState => ({
+          register: {
+            name: prevState.register.name,
+            password: prevState.register.password,
+            passwordConfirmation: prevState.register.passwordConfirmation,
+            email: prevState.register.email,
+            interestedIn: prevState.register.interestedIn,
+            sex: prevState.register.sex,
+            title: value,
+            description: prevState.register.description
+          }
+        }));
+        break
+        case "description":
+        this.setState(prevState => ({
+          register: {
+            name: prevState.register.name,
+            password: prevState.register.password,
+            passwordConfirmation: prevState.register.passwordConfirmation,
+            email: prevState.register.email,
+            interestedIn: prevState.register.interestedIn,
+            sex: prevState.register.sex,
+            title: prevState.register.title,
+            description: value
+          }
+        }));
+        break
         default:
           break;
       }
@@ -111,12 +199,11 @@ class App extends Component {
   }
 
   submit = e => {
-    // WHEN SUBMIT VALIDATE THE PASSWORD
-    // const { createUser, loginUser } = this.props
-    // const loginInfo = this.state.login
-    // const registerInfo = this.state.register
     e.preventDefault();
-
+    // WHEN SUBMIT VALIDATE THE PASSWORD
+    const loginInfo = this.state.login
+    const registerInfo = this.state.register
+    // console.log("login information", loginInfo, "\n", "register info", registerInfo)
     const btnType = e.target.children[1].dataset.type;
     // TAKES THE INFO AND SEND IT BACK POST REQUEST
     if (btnType === "register") {
@@ -124,14 +211,26 @@ class App extends Component {
       // DO CHECKS TO MAKE SURE IT'S NOT EMPTY WHEN THEY SUBMIT
       // createUser(registerInfo)
       console.log("register");
-    } else {
-      console.log("login");
+      console.log(registerInfo)
 
+      Axios.post("/api/register", { registerInfo })
+      .then(response => {
+        console.log(response)
+      })
+      .catch(err => {
+        const errorMsg = err.response.data.msg
+        alert(errorMsg)
+      })
+
+
+      
+    } else {
+      console.log(loginInfo)
+      console.log("login");
       // loginUser(loginInfo)
       // DO API CALL FOR LOGIN ROUTE
       // DO CHECKS TO MAKE SURE IT'S NOT EMPTY WHEN THEY SUBMIT
     }
-
     // CONVERT INTO A SWITCH STATEMENT BASED OFF BTNTYPE -- LOGOUT BUTTON
   };
 
@@ -139,11 +238,9 @@ class App extends Component {
   render() {
     const { login, register } = this.state
     const { submit, formValueUpdate } = this
-    console.log(this.state);
+    // console.log("STATE", this.state);
     return (
-      // <Router history={history}>
-      <div className="div">
-
+      <div className="App">
         <Switch>
           <Route exact path="/auth">
             <Auth />
@@ -163,22 +260,8 @@ class App extends Component {
           <Route path="/">
             <SwipeContainer/>
           </Route>
-      
-
-          {/* <Route path="/swiper">
-            Swipe for charlies
-            </Route>
-            <Route path="/login">
-            login
-            </Route>
-            
-            
-            <Route exact path="/">
-            { user ? <Redirect to="/swiper" /> : <Redirect to="/login"/> }
-          </Route> */}
         </Switch>
       </div>
-      // </Router>
     );
   }
 }

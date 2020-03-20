@@ -12,18 +12,31 @@ router.get("/users", async (req, res) => {
 
 // REGISTER
 router.post("/register", async (req, res) => {
-  const { name, email, password, interestedIn, sex, location, title, description } = req.body;
+  const { name, email, password, passwordConfirmation, interestedIn, sex, location, title, description } = req.body.registerInfo;
 
+  // VALIDATIONS OF INPUTS
   const allTheCharlies = await Charlie.find({})
   // Check required fields
-  if (!name || !email || !password) {
+  if (!name || !email || !password || !title || !sex || !interestedIn) {
     return res.status(400).json({ msg: "Please enter all fields" });
   }
+
+  var passwordCheck = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
+
+  const passCheck = passwordCheck.exec(password)
   //Check password length
   if (password.length < 6) {
     return res
       .status(400)
       .json({ msg: "Password should be at least 6 characters long" });
+  } else if (password !== passwordConfirmation) {
+    return res
+      .status(400)
+      .json({ msg: "Passwords do not match"})
+  } else if( !passCheck ) {
+    return res
+      .status(400)
+      .json({ msg: "Password must contain 1 Lowercase, Uppercase, Number, Special Character"})
   }
   const user = await User.findOne({ email: email })
   if (user) return res.status(400).json({ msg: "User already exists" });

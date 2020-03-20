@@ -33,7 +33,7 @@ import {
 // };
 
 const Login = (props) => {
-  //  console.log("LOGIN COMPONENT", props);
+   console.log("LOGIN COMPONENT", props);
   const { update, submit } = props
   const { email, password } = props.loginInfo
   return (
