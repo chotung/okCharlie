@@ -20,24 +20,48 @@ router.post("/register", async (req, res) => {
   if (!name || !email || !password || !title || !sex || !interestedIn) {
     return res.status(400).json({ msg: "Please enter all fields" });
   }
+  // Password Validations
+  const checkLength = new RegExp(/.{8,16}$/, "g").exec(password)
+  const checkLowerCase = new RegExp(/^(?=.*[a-z])/, "g").exec(password)
+  const checkUpperCase = new RegExp(/(?=.*[A-Z])/, "g").exec(password)
+  const checkNumber = new RegExp(/(?=.*\d)/, "g").exec(password)
+  const checkSpecialChars = new RegExp(/(?=.*[#$^+=!*()@%&])/, "g").exec(password)
 
-  var passwordCheck = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
-
-  const passCheck = passwordCheck.exec(password)
   //Check password length
-  if (password.length < 6) {
+  if (!checkLength) {
     return res
       .status(400)
-      .json({ msg: "Password should be at least 6 characters long" });
+      .json({ msg: "Password should be 8 - 16 characters long." });
+  } else if(!checkLowerCase) {
+    return res
+      .status(400)
+      .json({ msg: "Password should contain a lower case letter."})
+  } else if (!checkUpperCase) {
+    return res
+      .status(400)
+      .json({
+        msg: "Password should contain a capital letter."
+      })
+  } else if (!checkNumber) {
+    return res
+      .status(400)
+      .json({
+        msg: "Password should contain a number."
+      })
+  } else if (!checkSpecialChars) {
+    return res
+      .status(400)
+      .json({
+        msg: "Password should contain a special character."
+      })
   } else if (password !== passwordConfirmation) {
     return res
       .status(400)
-      .json({ msg: "Passwords do not match"})
-  } else if( !passCheck ) {
-    return res
-      .status(400)
-      .json({ msg: "Password must contain 1 Lowercase, Uppercase, Number, Special Character"})
+      .json({
+        msg: "Passwords do not match"
+      })
   }
+  
   const user = await User.findOne({ email: email })
   if (user) return res.status(400).json({ msg: "User already exists" });
   const newUser = await new User({
@@ -51,7 +75,6 @@ router.post("/register", async (req, res) => {
     location,
     likeBy: allTheCharlies
   });
-  console.log(newUser)
 
   //Password hashing
   bcrypt.genSalt(12, (err, salt) =>
