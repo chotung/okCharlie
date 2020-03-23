@@ -36,11 +36,16 @@ class App extends Component {
 
   componentDidMount() {
     this.checkUser()
+
+
   }
 
   checkUser = () => {
-    const { user } = this.state
-    // check session storage
+    const storage = window.localStorage
+    const user = JSON.parse(storage.getItem("user"))
+    // const { user } = this.state
+    // check local storage
+    console.log("local", user)
     if (user) {
       // USER IS LOGGED IN
       history.push("/")
@@ -210,12 +215,21 @@ class App extends Component {
       // DO API CALL FOR REGISTER ROUTE
       // DO CHECKS TO MAKE SURE IT'S NOT EMPTY WHEN THEY SUBMIT
       // createUser(registerInfo)
-      console.log("register");
-      console.log(registerInfo)
+      console.log("register", registerInfo)
 
       Axios.post("/api/register", { registerInfo })
       .then(response => {
         console.log(response)
+        const { email, password} = response.data.user;
+         this.setState({
+           user: response.data.user
+         });
+        if(response.status === 200) {
+            // const storage = window.localStorage
+            // const userString = JSON.stringify(loginUser)
+            // storage.setItem("user", userString)
+            history.push("/auth/login")
+        }
       })
       .catch(err => {
         const errorMsg = err.response.data.msg
@@ -239,6 +253,8 @@ class App extends Component {
     const { login, register } = this.state
     const { submit, formValueUpdate } = this
     // console.log("STATE", this.state);
+    console.log(this.state.user);
+
     return (
       <div className="App">
         <Switch>
