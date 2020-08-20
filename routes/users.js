@@ -98,8 +98,8 @@ router.post("/register", async (req, res) => {
 
 // LOGIN
 router.post("/login", async (req, res) => {
-  console.log(req.body)
-  const { email, password } = req.body;
+  console.log("REQUEST BODY LOGIN", req.body)
+  const { email, password } = req.body.loginInfo;
   // basic validation
   if (!email || !password) {
     return res.status(400).json({ msg: "Please enter all fields" });
@@ -127,8 +127,9 @@ router.delete("/logout", (req, res) => {
 });
 
 // AUTH
-router.get("/authchecker", (req, res) => {
+const sessionChecker = ("/authchecker", (req, res, next) => {
   const sessUser = req.session.user;
+  console.log(req.cookies.user_sid);
   if (sessUser) {
     return res.json({ msg: " Authenticated Successfully", sessUser });
   } else {
@@ -144,7 +145,8 @@ router.delete("/users/delete/:name", async (req, res) => {
     _id: req.body._id
   });
 
-  res.send("redirect to signup again");
+  // res.send("redirect to signup again");
+  // res.redirect("../register")
 });
 
 

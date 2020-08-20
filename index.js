@@ -52,6 +52,11 @@ app.use(
     }
   })
 );
+app.use((req, res, next) => {
+  if(req.cookies.user_sid && !req.session.user) [
+    res.clearCookie('user_sid')
+  ]
+})
 
 db.on("error", console.error.bind(console, "Connection Error:"))
 db.once("open", () => {
@@ -67,7 +72,8 @@ app.use("/api", require("./routes/users.js"));
 app.use("/api", require("./routes/charlies.js"));
 
 app.get("*", (req, res) => {
-  res.send("Hello World") 
+  // res.send("Hello World") 
+  // res.redirect('../api/charlies')
 })
 app.listen(PORT, function() {
   console.log(`Server is listening on http://${HOST}:${PORT}`);

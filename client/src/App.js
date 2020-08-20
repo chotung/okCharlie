@@ -215,11 +215,11 @@ class App extends Component {
       // DO API CALL FOR REGISTER ROUTE
       // DO CHECKS TO MAKE SURE IT'S NOT EMPTY WHEN THEY SUBMIT
       // createUser(registerInfo)
-      console.log("register", registerInfo)
+      // console.log("register", registerInfo)
 
       Axios.post("/api/register", { registerInfo })
       .then(response => {
-        console.log(response)
+        // console.log(response)
         const { email, password} = response.data.user;
          this.setState({
            user: response.data.user
@@ -235,12 +235,16 @@ class App extends Component {
         const errorMsg = err.response.data.msg
         alert(errorMsg)
       })
-
-
-      
     } else {
-      console.log(loginInfo)
-      console.log("login");
+      // console.log(loginInfo)
+      // console.log("login");
+      Axios.post("/api/login", { loginInfo })
+      .then(response => {
+        console.log(response, "response ");
+        if(response.status === 200) {
+          // console.log(response.data.sessUser);
+        }
+      })
       // loginUser(loginInfo)
       // DO API CALL FOR LOGIN ROUTE
       // DO CHECKS TO MAKE SURE IT'S NOT EMPTY WHEN THEY SUBMIT
