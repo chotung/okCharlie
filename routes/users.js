@@ -98,7 +98,7 @@ router.post("/register", async (req, res) => {
 
 // LOGIN
 router.post("/login", async (req, res) => {
-  console.log("REQUEST BODY LOGIN", req.body)
+  // console.log("REQUEST BODY LOGIN", req.body)
   const { email, password } = req.body.loginInfo;
   // basic validation
   if (!email || !password) {
@@ -112,7 +112,7 @@ router.post("/login", async (req, res) => {
 
   const sessUser = { id: user.id, name: user.name, email: user.email };
   req.session.user = sessUser; // Auto saves session data in mongo store
-
+  req.session.loggedin = true
   res.json({ msg: " Logged In Successfully", sessUser }); // sends cookie with sessionID automatically in response
 });
 
@@ -126,16 +126,15 @@ router.delete("/logout", (req, res) => {
   });
 });
 
-// AUTH
-const sessionChecker = ("/authchecker", (req, res, next) => {
-  const sessUser = req.session.user;
-  console.log(req.cookies.user_sid);
-  if (sessUser) {
-    return res.json({ msg: " Authenticated Successfully", sessUser });
-  } else {
-    return res.status(401).json({ msg: "Unauthorized" });
-  }
-});
+// const sessionChecker = ("/authchecker", (req, res, next) => {
+//   const sessUser = req.session.user;
+//   console.log(req.cookies.user_sid);
+//   if (sessUser) {
+//     return res.json({ msg: " Authenticated Successfully", sessUser });
+//   } else {
+//     return res.status(401).json({ msg: "Unauthorized" });
+//   }
+// });
 
 // DELETE USER ACCOUNT
 router.delete("/users/delete/:name", async (req, res) => {

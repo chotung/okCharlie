@@ -9,12 +9,7 @@ import Register from "./components/Register"
 import SwipeContainer from "./containers/SwipeContainer"
 import Axios from "axios";
 
-
-
-
 class App extends Component {
-  // HOLD THE DATA FROM THE FORMS
-  // THEN PASS IT TO MY API
   state = {
     login: {
       email: "",
@@ -36,8 +31,6 @@ class App extends Component {
 
   componentDidMount() {
     this.checkUser()
-
-
   }
 
   checkUser = () => {
@@ -45,7 +38,7 @@ class App extends Component {
     const user = JSON.parse(storage.getItem("user"))
     // const { user } = this.state
     // check local storage
-    console.log("local", user)
+    // console.log("local", user)
     if (user) {
       // USER IS LOGGED IN
       history.push("/")
@@ -205,50 +198,80 @@ class App extends Component {
 
   submit = e => {
     e.preventDefault();
-    // WHEN SUBMIT VALIDATE THE PASSWORD
     const loginInfo = this.state.login
     const registerInfo = this.state.register
-    // console.log("login information", loginInfo, "\n", "register info", registerInfo)
-    const btnType = e.target.children[1].dataset.type;
+    const btnType = e.target.children[1].dataset.type
+    const storage = window.localStorage
     // TAKES THE INFO AND SEND IT BACK POST REQUEST
-    if (btnType === "register") {
-      // DO API CALL FOR REGISTER ROUTE
-      // DO CHECKS TO MAKE SURE IT'S NOT EMPTY WHEN THEY SUBMIT
-      // createUser(registerInfo)
-      // console.log("register", registerInfo)
-
-      Axios.post("/api/register", { registerInfo })
-      .then(response => {
-        // console.log(response)
-        const { email, password} = response.data.user;
-         this.setState({
-           user: response.data.user
-         });
-        if(response.status === 200) {
-            // const storage = window.localStorage
-            // const userString = JSON.stringify(loginUser)
-            // storage.setItem("user", userString)
-            history.push("/auth/login")
-        }
-      })
-      .catch(err => {
-        const errorMsg = err.response.data.msg
-        alert(errorMsg)
-      })
-    } else {
-      // console.log(loginInfo)
-      // console.log("login");
-      Axios.post("/api/login", { loginInfo })
-      .then(response => {
-        console.log(response, "response ");
-        if(response.status === 200) {
-          // console.log(response.data.sessUser);
-        }
-      })
-      // loginUser(loginInfo)
-      // DO API CALL FOR LOGIN ROUTE
-      // DO CHECKS TO MAKE SURE IT'S NOT EMPTY WHEN THEY SUBMIT
+    switch (btnType) {
+      case "register":
+        Axios.post("/api/register", { registerInfo })
+          .then(response => {
+            if (response.status === 200) {
+              this.setState({
+                user: response.data.user
+              });
+            }
+          })
+          .catch(err => {
+            const errorMsg = err.response.data.msg
+            alert(errorMsg)
+          })
+          break;
+        case "login":
+          Axios.post("/api/login", { loginInfo })
+          .then(response => {
+            if (response.status === 200) {
+              this.setState({
+                user: response.data.sessUser
+              });
+              history.push("/")
+            }
+          })
+          .catch(err => {
+            const errorMsg = err.response.data.msg
+            alert(errorMsg)
+          })
+        break;
+        case "logout":
+          console.log("logging out")
+      default:
+        break;
     }
+    // if (btnType === "register") {
+    //   Axios.post("/api/register", { registerInfo })
+    //   .then(response => {
+    //     if(response.status === 200) {
+    //         this.setState({
+    //           user: response.data.user
+    //         });
+            
+    //         // const userString = JSON.stringify(loginUser)
+    //         // storage.setItem("user", userString)
+    //         // history.push("/auth/login")
+    //     }
+    //   })
+    //   .catch(err => {
+    //     const errorMsg = err.response.data.msg
+    //     alert(errorMsg)
+    //   })
+    // } else {
+    //   Axios.post("/api/login", { loginInfo })
+    //   .then(response => {
+    //     if(response.status === 200) {
+    //       this.setState({
+    //         user: response.data.sessUser
+    //       });
+          
+    //       history.push("/")
+
+    //       // console.log(response.data.sessUser);
+    //     }
+    //   })
+    //   // loginUser(loginInfo)
+    //   // DO API CALL FOR LOGIN ROUTE
+    //   // DO CHECKS TO MAKE SURE IT'S NOT EMPTY WHEN THEY SUBMIT
+    // }
     // CONVERT INTO A SWITCH STATEMENT BASED OFF BTNTYPE -- LOGOUT BUTTON
   };
 
@@ -256,9 +279,6 @@ class App extends Component {
   render() {
     const { login, register } = this.state
     const { submit, formValueUpdate } = this
-    // console.log("STATE", this.state);
-    console.log(this.state.user);
-
     return (
       <div className="App">
         <Switch>
@@ -278,7 +298,7 @@ class App extends Component {
               />
           </Route>
           <Route path="/">
-            <SwipeContainer/>
+            <SwipeContainer submit={submit} />
           </Route>
         </Switch>
       </div>

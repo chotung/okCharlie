@@ -43,7 +43,7 @@ app.use(
     name: COOKIE_NAME, //name to be put in "key" field in postman etc
     secret: SESS_SECRET,
     resave: true,
-    saveUninitialized: false,
+    saveUninitialized: true,
     store: mongoDBstore,
     cookie: {
       maxAge: MAX_AGE,
@@ -52,11 +52,7 @@ app.use(
     }
   })
 );
-app.use((req, res, next) => {
-  if(req.cookies.user_sid && !req.session.user) [
-    res.clearCookie('user_sid')
-  ]
-})
+
 
 db.on("error", console.error.bind(console, "Connection Error:"))
 db.once("open", () => {
@@ -71,7 +67,7 @@ if (process.env.NODE_ENV === "production") {
 app.use("/api", require("./routes/users.js"));
 app.use("/api", require("./routes/charlies.js"));
 
-app.get("*", (req, res) => {
+app.get("/", (req, res) => {
   // res.send("Hello World") 
   // res.redirect('../api/charlies')
 })

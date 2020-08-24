@@ -1,4 +1,5 @@
 import React from 'react';
+import Logout from '../components/Logout'
 // import UserCard from '../components/UserCard';
 // import { Container } from "@material-ui/core";
 // import Header from "./Header"
@@ -19,14 +20,12 @@ import React from 'react';
 //   );
 // }
 
-
-
-
 const SwipeContainer = (props) => {
-  console.log(props);
+  const { submit } = props
   return (
     <div>
       THIS WILL BE THE WIPER OF SWIPERS
+        <Logout submit={submit} />
     </div>
   )
 }
