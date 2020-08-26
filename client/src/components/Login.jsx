@@ -47,7 +47,7 @@ const Login = (props) => {
                 onChange={update}
                 value={email}
                 name="email"
-                type="email"
+                // type="email"
                 className="form-control"
                 placeholder="Enter Your Email"
               />

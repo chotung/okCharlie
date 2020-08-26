@@ -25,7 +25,7 @@ class App extends Component {
       interestedIn: "male",
       sex: "female"
     },
-    user: undefined,
+    user: {},
     charlies: []
   }
 
@@ -35,12 +35,16 @@ class App extends Component {
 
   checkUser = () => {
     const storage = window.localStorage
-    const user = JSON.parse(storage.getItem("user"))
+    const localUser = JSON.parse(storage.getItem("user"))
+    const { user } = this.state
     // const { user } = this.state
     // check local storage
     // console.log("local", user)
-    if (user) {
+    if (localUser) {
       // USER IS LOGGED IN
+      this.setState({
+        user: localUser  
+      })
       history.push("/")
       // console.log("send me home");
     } else {
@@ -211,6 +215,8 @@ class App extends Component {
               this.setState({
                 user: response.data.user
               });
+              storage.setItem("user",JSON.stringify(response.data.sessUser))
+
             }
           })
           .catch(err => {
@@ -225,16 +231,30 @@ class App extends Component {
               this.setState({
                 user: response.data.sessUser
               });
+
+              storage.setItem("user", JSON.stringify(response.data.sessUser))
               history.push("/")
             }
           })
-          .catch(err => {
-            const errorMsg = err.response.data.msg
-            alert(errorMsg)
-          })
+          // .catch(err => {
+          //   const errorMsg = err.response.data.msg
+          //   alert(errorMsg)
+          // })
         break;
         case "logout":
-          console.log("logging out")
+          Axios.delete("/api/logout")
+          .then(response => {
+            if(response.status === 200) {
+              localStorage.clear();
+              this.setState({
+                user: {},
+                register: {},
+                login: {}
+              })
+              history.push("/auth/login")
+            }
+          })
+          break;
       default:
         break;
     }
@@ -277,7 +297,8 @@ class App extends Component {
 
 
   render() {
-    const { login, register } = this.state
+    console.log(this.state);
+    const { login, register, user } = this.state
     const { submit, formValueUpdate } = this
     return (
       <div className="App">
@@ -298,7 +319,9 @@ class App extends Component {
               />
           </Route>
           <Route path="/">
-            <SwipeContainer submit={submit} />
+            {user.name !== undefined ? 
+              <SwipeContainer submit={submit} />
+            : <Auth/>}
           </Route>
         </Switch>
       </div>

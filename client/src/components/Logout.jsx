@@ -4,7 +4,6 @@ import { Button } from '@material-ui/core';
 
 const Logout = (props) => {
     const { submit } = props
-    console.log(submit);
     return (
         <form className="logoutForm" onSubmit={submit}>
             <span className="hidden"></span>
